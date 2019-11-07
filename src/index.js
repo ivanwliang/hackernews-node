@@ -13,7 +13,10 @@ let idCount = links.length;
 const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
-    feed: () => links
+    feed: () => links,
+    link: (parent, args) => {
+      return links.find(link => link.id === args.id);
+    }
   },
   Mutation: {
     post: (parent, args) => {
@@ -29,7 +32,7 @@ const resolvers = {
 };
 
 const server = new GraphQLServer({
-  typeDefs: "./schema.graphql",
+  typeDefs: "./src/schema.graphql",
   resolvers
 });
 server.start(() => console.log(`Server is running on http://localhost:4000`));
